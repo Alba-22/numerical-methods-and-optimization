@@ -1,11 +1,29 @@
+import 'dart:convert';
+import 'dart:io';
+
+void main() {
+  List<List<double>> matrix = [];
+  final variablesQuantity = readInt("Quantas variáveis terá o sistema? ");
+
+  for (int row = 0; row < variablesQuantity; row++) {
+    final List<double> rowItems = [];
+    for (int col = 0; col < variablesQuantity + 1; col++) {
+      final value = readDouble("Digite o coeficiente de [${row + 1}][${col + 1}]: ");
+      rowItems.add(value);
+    }
+    matrix.add(rowItems);
+  }
+
+  final result = jordanMethod(matrix);
+
+  print("Os valores das incógnitas são: ${result.map((e) => e.toStringAsFixed(3)).join(", ")}");
+}
+
 List<double> jordanMethod(List<List<double>> matrix) {
-  // TODO: Verificar se a matrix está no formato correto: x linhas e x + 1 colunas
-  // TODO: Verificar se não tem zero em (0,0)
-  // TODO: Interface
-  print("Matrix inicial:");
-  print(matrix);
+  // print("Matrix inicial:");
+  // print(matrix);
   for (int iteration = 0; iteration < matrix.length; iteration++) {
-    print("Iteration: $iteration");
+    // print("Iteration: $iteration");
 
     for (int row = 0; row < matrix.length; row++) {
       double? numerator;
@@ -15,7 +33,7 @@ List<double> jordanMethod(List<List<double>> matrix) {
           continue;
         } else {
           numerator ??= matrix[row][col];
-          print("Conta: {[$row][$col]} = ${matrix[row][col]} - (($numerator / $denominator) * ${matrix[iteration][col]})");
+          // print("Conta: {[$row][$col]} = ${matrix[row][col]} - (($numerator / $denominator) * ${matrix[iteration][col]})");
           matrix[row][col] = matrix[row][col] - ((numerator / denominator) * matrix[iteration][col]);
         }
       }
@@ -36,15 +54,20 @@ List<double> jordanMethod(List<List<double>> matrix) {
       }
     }
 
-    print("Matrix após iteração $iteration:");
-    print(matrix);
+    // print("Matrix após iteração $iteration:");
+    // print(matrix);
   }
 
-  print("Matrix final:");
-  print(matrix);
+  // print("Matrix final:");
+  // print(matrix);
 
-  // TODO: Fazer retorno dos valores das incógnitas
-  return [];
+  List<double> result = [];
+
+  for (int iteration = 0; iteration < matrix.length; iteration++) {
+    result.add(matrix[iteration].last / matrix[iteration][iteration]);
+  }
+
+  return result;
 }
 
 int? getLineWhereMainDiagonalIsZero(List<List<double>> matrix) {
@@ -58,4 +81,26 @@ int? getLineWhereMainDiagonalIsZero(List<List<double>> matrix) {
   }
 
   return null;
+}
+
+double readDouble(String message, {String errorMessage = "Valor inválido"}) {
+  stdout.write(message);
+  final String? elementInput = stdin.readLineSync(encoding: utf8);
+  if (elementInput == null || double.tryParse(elementInput) == null) {
+    print(errorMessage);
+    exit(0);
+  }
+
+  return double.parse(elementInput);
+}
+
+int readInt(String message, {String errorMessage = "Valor inválido"}) {
+  stdout.write(message);
+  final String? polynomialDegreeInput = stdin.readLineSync(encoding: utf8);
+  if (polynomialDegreeInput == null || int.tryParse(polynomialDegreeInput) == null) {
+    print(errorMessage);
+    exit(0);
+  }
+
+  return int.parse(polynomialDegreeInput);
 }
