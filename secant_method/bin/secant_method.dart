@@ -87,8 +87,10 @@ Output secantMethod(double a, double b, List<double> polynomial, double toleranc
       break;
     }
 
-    x1 = x0;
-    x0 = x2;
+    // x1 = x0;
+    // x0 = x2;
+    x0 = x1;
+    x1 = x2;
 
     iterations++;
   }

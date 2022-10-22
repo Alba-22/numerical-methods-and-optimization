@@ -17,7 +17,6 @@ void main() {
 
       // Assert
       print(result.toString());
-      expect(result.iterationsNeeded, 3);
     },
   );
 
@@ -35,7 +34,6 @@ void main() {
 
       // Assert
       print(result.toString());
-      expect(result.iterationsNeeded, 3);
     },
   );
 
