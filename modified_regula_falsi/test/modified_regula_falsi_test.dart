@@ -73,4 +73,17 @@ void main() {
       expect(result, 1.1666666666666667);
     },
   );
+
+  test(
+    "Teste da evaluateWeightedAverage",
+    () async {
+      // Act
+      final x = evaluateWeightedAverage(1.3233, 1.3264, -0.0059, 0.0075);
+      final fX = evaluateExpression(x, [1, 0, -1, -1]);
+
+      // Assert
+      print(x);
+      print(fX);
+    },
+  );
 }
